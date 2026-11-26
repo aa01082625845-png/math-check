@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Math Check</title>
+
+<style>
+
+* { box-sizing: border-box; }
+
+body {
+
+  margin: 0;
+
+  padding: 24px 16px;
+
+  background: #f2f5fc;
+
+  font-family: Arial, sans-serif;
+
+  color: #202943;
+
+}
+
+.container {
+
+  max-width: 560px;
+
+  margin: 25px auto;
+
+  padding: 28px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow: 0 5px 22px #17255418;
+
+}
+
+header {
+
+  background: #2448bd;
+
+  color: white;
+
+  padding: 20px;
+
+  margin: -28px -28px 24px;
+
+  border-radius: 18px 18px 0 0;
+
+}
+
+h1 { margin: 0; font-size: 27px; }
+
+header p { margin-bottom: 0; }
+
+label {
+
+  display: block;
+
+  margin: 19px 0 8px;
+
+  font-weight: bold;
+
+}
+
+select, textarea {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: 1px solid #cbd3e1;
+
+  border-radius: 9px;
+
+  font-size: 15px;
+
+  background: white;
+
+}
+
+textarea { min-height: 90px; resize: vertical; }
+
+button {
+
+  width: 100%;
+
+  margin-top: 22px;
+
+  padding: 14px;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  background: #2448bd;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+}
+
+button:hover { background: #193897; }
+
+.result {
+
+  margin-top: 22px;
+
+  padding: 17px;
+
+  border-radius: 10px;
+
+  background: #edf2ff;
+
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+
+}
+
+.hidden { display: none; }
+
+footer {
+
+  margin-top: 22px;
+
+  text-align: center;
+
+  color: #7b8497;
+
+  font-size: 12px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <header>
+
+    <h1>📘 Math Check</h1>
+
+    <p>나의 수학 오답을 분석해 보세요!</p>
+
+  </header>
+
+  <label for="unit">수학 단원</label>
+
+  <select id="unit">
+
+    <option>다항식</option>
+
+    <option>방정식과 부등식</option>
+
+    <option>함수</option>
+
+    <option>수열</option>
+
+    <option>확률과 통계</option>
+
+    <option>기타</option>
+
+  </select>
+
+  <label for="reason">내가 생각하는 오답 원인</label>
+
+  <select id="reason">
+
+    <option>계산 실수</option>
+
+    <option>개념 부족</option>
+
+    <option>문제 해석 오류</option>
+
+    <option>공식 적용 오류</option>
+
+  </select>
+
+  <label for="memo">문제에 대한 메모</label>
+
+  <textarea id="memo" placeholder="어떤 부분에서 어려움을 느꼈나요?"></textarea>
+
+  <label for="concept">문제 풀이에 필요한 개념이나 방법을 알고 있나요?</label>
+
+  <select id="concept">
+
+    <option value="yes">알고 있었다</option>
+
+    <option value="no">잘 모르거나 헷갈렸다</option>
+
+  </select>
+
+  <label for="mistake">풀이 과정에서 계산 실수를 발견했나요?</label>
+
+  <select id="mistake">
+
+    <option value="yes">계산 실수가 있었다</option>
+
+    <option value="no">계산 실수는 없었다</option>
+
+  </select>
+
+  <button onclick="analyze()">오답 분석하기</button>
+
+  <div id="result" class="result hidden"></div>
+
+  <div id="detail" class="result hidden"></div>
+
+  <footer>Math Check · 나의 수학 학습을 돌아보는 시간</footer>
+
+</div>
+
+<script>
+
+function analyze() {
+
+  const unit = document.getElementById("unit").value;
+
+  const reason = document.getElementById("reason").value;
+
+  const memo = document.getElementById("memo").value.trim();
+
+  const concept = document.getElementById("concept").value;
+
+  const mistake = document.getElementById("mistake").value;
+
+  let message = "";
+
+  if (concept === "no") {
+
+    message = "개념 이해가 더 필요한 것 같아요.\n관련 개념을 다시 학습하고 기본 문제부터 차근차근 풀어보세요.";
+
+  } else if (mistake === "yes") {
+
+    message = "계산 과정에서 실수가 있었어요.\n풀이 과정을 한 줄씩 확인하고 계산 결과를 검산하는 습관을 길러보세요.";
+
+  } else if (reason === "문제 해석 오류") {
+
+    message = "문제 해석에 어려움이 있었던 것 같아요.\n문제에서 주어진 조건과 구해야 하는 것을 구분해 보세요.";
+
+  } else if (reason === "공식 적용 오류") {
+
+    message = "공식 적용 방법을 점검해 보세요.\n공식의 의미와 사용 조건을 이해한 뒤 비슷한 문제를 풀어보세요.";
+
+  } else {
+
+    message = "풀이 방법을 다시 점검해 보세요.\n문제의 조건과 풀이 과정을 차례대로 확인해 보세요.";
+
+  }
+
+  document.getElementById("result").textContent =
+
+    "📌 오답 분석 결과\n\n" + message;
+
+  document.getElementById("detail").textContent =
+
+    "📖 나의 학습 기록\n\n수학 단원: " + unit +
+
+    "\n내가 생각하는 오답 원인: " + reason +
+
+    "\n작성한 메모: " + (memo || "작성한 메모가 없습니다.");
+
+  document.getElementById("result").classList.remove("hidden");
+
+  document.getElementById("detail").classList.remove("hidden");
+
+}
+
+</script>
+
+</body>
+
+</html>
